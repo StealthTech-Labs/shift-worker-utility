@@ -1,15 +1,14 @@
 import csv
 import os
 
-# THE STEALTH TECH GROUP - UNIFIED MASTER ENTERPRISE CORE v4.0 (GEEGPAY NODE)
+# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE CORE v5.0 (WITH DATA DEDUPLICATION)
 class StealthTechUltimateEngine:
     def __init__(self, business_name="The Stealth Tech Group"):
         self.company = business_name
         self.db_file = "billing_ledger.csv"
-        # Primary Treasury Wallet (Replicating the Dangote Offshore Model)
         self.geegpay_usd_vault = 0.00
         self._initialize_database()
-        print(f"=== {self.company} Master Core v4.0 engaged ===")
+        print(f"=== {self.company} Master Core v5.0 Online ===")
 
     def _initialize_database(self):
         if not os.path.exists(self.db_file):
@@ -17,12 +16,23 @@ class StealthTechUltimateEngine:
                 writer = csv.writer(file)
                 writer.writerow(["Client Name", "USD Amount", "Naira Total"])
 
+    def remove_duplicate_records(self, raw_data_list):
+        print("🧹 [DEDUPLICATION] Initializing Database Deduplication Scan...")
+        unique_records = []
+        duplicate_count = 0
+        for record in raw_data_list:
+            if record in unique_records:
+                duplicate_count += 1
+            else:
+                unique_records.append(record)
+        print(f"✅ Clean Complete: Removed {duplicate_count} duplicate files.")
+        return unique_records
+
     def process_and_settle_to_geegpay(self, client_name, usd_amount):
         if usd_amount <= 0:
             print("❌ SECURITY ERROR: Negative or zero validation anomaly quarantined.")
             return None
             
-        # Settle funds directly into the offshore USD wallet vault
         self.geegpay_usd_vault += usd_amount
         naira_equivalent = usd_amount * 1650
         
@@ -38,64 +48,31 @@ class StealthTechUltimateEngine:
         print("==================================================")
         return naira_equivalent
 
-    def generate_client_email_receipt(self, client_name, usd_amount, naira_total):
-        email_template = f"""
-======================================================================
-📧 OUTBOUND DISPATCH: THE STEALTH TECH GROUP OPERATIONS DESK
-======================================================================
-To: Operations Director <contact@clientagency.com>
-Subject: Verification Complete - Audit Ledger Account: {client_name}
-
-Dear Partner,
-
-Our data engineering systems have successfully processed your weekly 
-contract logs with 100% precision. 
-
-Your verified ledger statistics are formatted below:
-----------------------------------------------------------------------
-💼 Client Account Node:        {client_name}
-📊 Raw Ingestion Volume:       ${usd_amount:,.2f} USD
-🇳🇬 Consolidated Local Value:   ₦{naira_total:,} NGN
-----------------------------------------------------------------------
-Status: 100% Secure. Settled to Branded Geegpay Corporate USD Vault.
-
-A portion of our net profit overflow from this transaction is routed 
-to local orphanage infrastructure updates via The Stealth Tech Foundation.
-You can monitor our open-source codebase storefront live on the web:
-👉 ://github.com
-
-Thank you for your partnership.
-
-Sincerely,
-Operations Desk
-The Stealth Tech Group
-======================================================================
-"""
-        print(email_template)
-        return email_template
-
 def launch_executive_dashboard():
     engine = StealthTechUltimateEngine()
     print("\n==================================================")
-    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v4.0")
+    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v5.0")
     print("==================================================")
     
     while True:
         print("\n[DASHBOARD MENU]")
-        print("1. Ingest Transaction & Route to Geegpay USD Wallet")
-        print("2. Close Corporate Channels Securely")
+        print("1. Process New Transaction to Geegpay USD Wallet")
+        print("2. Run Bulk Data Deduplication Clean")
+        print("3. Close Corporate Channels Securely")
         
-        user_choice = input("\nEnter selection (1-2): ")
+        user_choice = input("\nEnter selection (1-3): ")
         if user_choice == "1":
             client_name = input("Enter client name: ")
             try:
                 amount = float(input("Enter transaction amount in USD ($): "))
-                naira_result = engine.process_and_settle_to_geegpay(client_name, amount)
-                if naira_result:
-                    engine.generate_client_email_receipt(client_name, amount, naira_result)
+                engine.process_and_settle_to_geegpay(client_name, amount)
             except ValueError:
                 print("❌ ERROR: Invalid character input string.")
         elif user_choice == "2":
+            # Running a live test array of messy client records
+            test_list = ["info@ukshop.com", "sales@london.com", "info@ukshop.com", "admin@scot.com"]
+            engine.remove_duplicate_records(test_list)
+        elif user_choice == "3":
             print("🔒 Closing database channels. Station secured.")
             break
 
