@@ -1,68 +1,65 @@
-# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE PROCESSING CORE
+import csv
+import os
+
+# THE STEALTH TECH GROUP - INDUSTRIAL CORE WITH PERSISTENT STORAGE
 class StealthTechMasterEngine:
     def __init__(self, business_name="The Stealth Tech Group"):
         self.company = business_name
-        print(f"=== {self.company} Unified System Core Engaged ===")
+        self.db_file = "billing_ledger.csv"
+        self._initialize_database()
+        print(f"=== {self.company} Unified Core with Storage Engaged ===")
 
-    def process_weekly_agency_batch(self, raw_data_stream):
-        print("🛡️ Step 1: Initializing Security Data Integrity Scan...")
-        clean_records = []
-        flagged_errors = []
-        
-        for record in raw_data_stream:
-            if record <= 0:
-                flagged_errors.append(record)
-            else:
-                clean_records.append(record)
-                
-        print("🚀 Step 2: Processing Valid Files Through Multi-Currency Loops...")
-        for amount in clean_records:
-            naira_total = amount * 1650
-            print(f"💰 Processed Transaction: ${amount} USD ---> ₦{naira_total:,} Naira")
+    def _initialize_database(self):
+        # Creates the spreadsheet file with headers if it does not exist yet
+        if not os.path.exists(self.db_file):
+            with open(self.db_file, mode="w", newline="", encoding="utf-8") as file:
+                writer = csv.writer(file)
+                writer.writerow(["Client Name", "USD Amount", "Naira Total"])
+
+    def process_and_log_transaction(self, client_name, usd_amount):
+        print("🛡️ Initializing Security Data Integrity Scan...")
+        if usd_amount <= 0:
+            print("❌ ERROR: Security violation caught! Invalidation quarantined.")
+            return False
             
-        return {
-            "Status": "Batch Processing 100% Successful",
-            "Secure Records Logged": len(clean_records),
-            "Security Threats Neutralized": len(flagged_errors)
-        }
+        print("🚀 Processing Valid Files Through Multi-Currency Multipliers...")
+        naira_total = usd_amount * 1650
+        
+        print("💾 Accessing Persistent Storage Ledger...")
+        with open(self.db_file, mode="a", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow([client_name, f"${usd_amount}", f"₦{naira_total:,}"])
+            
+        print(f"✅ SUCCESS: Record for {client_name} safely written to disk database!")
+        print(f"💰 Transformed: ${usd_amount} USD ---> ₦{naira_total:,} Naira")
+        return True
 
-# Initializing Master Core
-if __name__ == "__main__":
-    engine = StealthTechMasterEngine()
-    test_stream = [100, 250, -50, 400, 0]
-    results = engine.process_weekly_agency_batch(test_stream)
-    print(results)
-
-# THE STEALTH TECH GROUP - INTERACTIVE USER DASHBOARD
 def launch_executive_dashboard():
+    engine = StealthTechMasterEngine()
+    
     print("\n==================================================")
-    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v1.0")
+    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v1.2")
     print("==================================================")
     
     while True:
         print("\n[DASHBOARD MENU]")
-        print("1. Process New Weekly Transaction")
+        print("1. Process & Log New Transaction")
         print("2. Shut Down System Securely")
         
         user_choice = input("\nEnter selection (1-2): ")
         
         if user_choice == "1":
+            client_name = input("Enter client name: ")
             try:
                 amount = float(input("Enter transaction amount in USD ($): "))
-                if amount <= 0:
-                    print("❌ ERROR: Security violation caught! Invalidation quarantined.")
-                else:
-                    naira_total = amount * 1650
-                    print(f"✅ SUCCESS: Processed ${amount} USD ---> ₦{naira_total:,} Naira")
+                engine.process_and_log_transaction(client_name, amount)
             except ValueError:
                 print("❌ ERROR: Invalid character input string.")
         elif user_choice == "2":
-            print("🔒 Closing dashboard channels. Station secured.")
+            print("🔒 Closing database channels. Station secured.")
             break
         else:
             print("⚠️ INVALID SELECTION. Please try again.")
 
-# Active System Trigger Configuration
 if __name__ == "__main__":
     launch_executive_dashboard()
-
