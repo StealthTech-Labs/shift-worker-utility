@@ -21,6 +21,17 @@ def calculate_shift_invoice(hours_worked, hourly_rate, currency="USD"):
         
     return {
         "Total Due": processed_hours * hourly_rate,
+
+      # THE STEALTH TECH GROUP - MULTI-CURRENCY CONVERSION MODULE
+def convert_to_naira(usd_amount, exchange_rate=1650):
+    """
+    Takes a total in US Dollars and converts it directly to Nigerian Naira
+    based on the current parallel market exchange rate wrapper.
+    """
+    total_naira = usd_amount * exchange_rate
+    return total_naira
+
+print("=== Multi-Currency Conversion Engine Active ===")  
         "Currency": currency,
         "Status": status
     }
