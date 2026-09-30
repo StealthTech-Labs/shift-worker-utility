@@ -48,3 +48,18 @@ def process_all_client_invoices(invoice_list):
     print("✅ [StealthTech] Bulk Batch Processing Complete with 100% Precision!")
 
 weekly_batch_files = [50, 100, 200, 500]
+
+
+# THE STEALTH TECH GROUP - COMPREHENSIVE DATA ERROR FILTER
+def sanitize_invoice_data(data_stream):
+    print("🛡️ [StealthTech] Initializing Security Integrity Scan...")
+    clean_records = []
+    flagged_errors = []
+    for record in data_stream:
+        if record <= 0:
+            flagged_errors.append(record)
+        else:
+            clean_records.append(record)
+    return {"Valid Files": clean_records, "Flagged Violations": flagged_errors}
+
+print("=== Data Security Integrity Scanner Online ===")
