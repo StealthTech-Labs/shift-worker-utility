@@ -32,3 +32,37 @@ if __name__ == "__main__":
     test_stream = [100, 250, -50, 400, 0]
     results = engine.process_weekly_agency_batch(test_stream)
     print(results)
+
+# THE STEALTH TECH GROUP - INTERACTIVE USER DASHBOARD
+def launch_executive_dashboard():
+    print("\n==================================================")
+    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v1.0")
+    print("==================================================")
+    
+    while True:
+        print("\n[DASHBOARD MENU]")
+        print("1. Process New Weekly Transaction")
+        print("2. Shut Down System Securely")
+        
+        user_choice = input("\nEnter selection (1-2): ")
+        
+        if user_choice == "1":
+            try:
+                amount = float(input("Enter transaction amount in USD ($): "))
+                if amount <= 0:
+                    print("❌ ERROR: Security violation caught! Invalidation quarantined.")
+                else:
+                    naira_total = amount * 1650
+                    print(f"✅ SUCCESS: Processed ${amount} USD ---> ₦{naira_total:,} Naira")
+            except ValueError:
+                print("❌ ERROR: Invalid character input string.")
+        elif user_choice == "2":
+            print("🔒 Closing dashboard channels. Station secured.")
+            break
+        else:
+            print("⚠️ INVALID SELECTION. Please try again.")
+
+# Active System Trigger Configuration
+if __name__ == "__main__":
+    launch_executive_dashboard()
+
