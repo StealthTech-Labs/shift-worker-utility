@@ -1,30 +1,26 @@
 import csv
 import os
 
-# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE CORE v6.0 (WITH BUSINESS ANALYTICS)
+# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE CORE v7.0 (WITH PHONE VALIDATION)
 class StealthTechUltimateEngine:
     def __init__(self, business_name="The Stealth Tech Group"):
         self.company = business_name
         self.db_file = "billing_ledger.csv"
-        self.geegpay_usd_vault = 0.00
-        self._initialize_database()
-        print(f"=== {self.company} Master Core v6.0 Online ===")
+        print(f"=== {self.company} Master Core v7.0 Online ===")
 
-    def _initialize_database(self):
-        if not os.path.exists(self.db_file):
-            with open(self.db_file, mode="w", newline="", encoding="utf-8") as file:
-                writer = csv.writer(file)
-                writer.writerow(["Client Name", "USD Amount", "Naira Total"])
-
-    def remove_duplicate_records(self, raw_data_list):
-        unique_records = []
-        duplicate_count = 0
-        for record in raw_data_list:
-            if record in unique_records:
-                duplicate_count += 1
+    def filter_phone_records(self, raw_database):
+        verified_list = []
+        fault_count = 0
+        
+        for record in raw_database:
+            phone_string = record.get("phone", "")
+            cleaned_digits = phone_string.replace("-", "").replace("+", "")
+            
+            if cleaned_digits.isdigit() and len(cleaned_digits) >= 10:
+                verified_list.append(record)
             else:
-                unique_records.append(record)
-        return unique_records, duplicate_count
+                fault_count += 1
+        return verified_list, fault_count
 
     def generate_executive_analytics(self, total_ingested, duplicates, malformed):
         clean_retained = total_ingested - (duplicates + malformed)
@@ -38,31 +34,22 @@ class StealthTechUltimateEngine:
         print(f"✅ Pristine Records Exported:   {clean_retained} Nodes")
         print(f"📈 Database Yield Purity Rate:  {purity_rate:.2f}%")
         print("==================================================================")
-        return clean_retained
 
 def launch_executive_dashboard():
     engine = StealthTechUltimateEngine()
     print("\n==================================================")
-    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v6.0")
+    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v7.0")
     print("==================================================")
     
-    while True:
-        print("\n[DASHBOARD MENU]")
-        print("1. Run Bulk Data Process & Generate Analytics Summary")
-        print("2. Close Corporate Channels Securely")
-        
-        user_choice = input("\nEnter selection (1-2): ")
-        if user_choice == "1":
-            try:
-                total = int(input("Enter total raw records count: "))
-                dups = int(input("Enter duplicate rows count found: "))
-                bad_mail = int(input("Enter malformed emails count found: "))
-                engine.generate_executive_analytics(total, dups, bad_mail)
-            except ValueError:
-                print("❌ ERROR: Invalid entry string integer.")
-        elif user_choice == "2":
-            print("🔒 Closing database channels. Station secured.")
-            break
+    # Pre-loaded mock run to simulate data integrity checks instantly
+    mock_data = [
+        {"client": "Tosin Admin", "phone": "+2348012345678"},
+        {"client": "Samantha Joseph", "phone": "080-999-BAD-NUM"},
+        {"client": "Mercy Agency", "amount": "09087654321"}
+    ]
+    
+    _, errors = engine.filter_phone_records(mock_data)
+    engine.generate_executive_analytics(len(mock_data), 0, errors)
 
 if __name__ == "__main__":
     launch_executive_dashboard()
