@@ -1,14 +1,14 @@
 import csv
 import os
 
-# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE CORE v5.0 (WITH DATA DEDUPLICATION)
+# THE STEALTH TECH GROUP - COMPLETE ENTERPRISE CORE v6.0 (WITH BUSINESS ANALYTICS)
 class StealthTechUltimateEngine:
     def __init__(self, business_name="The Stealth Tech Group"):
         self.company = business_name
         self.db_file = "billing_ledger.csv"
         self.geegpay_usd_vault = 0.00
         self._initialize_database()
-        print(f"=== {self.company} Master Core v5.0 Online ===")
+        print(f"=== {self.company} Master Core v6.0 Online ===")
 
     def _initialize_database(self):
         if not os.path.exists(self.db_file):
@@ -17,7 +17,6 @@ class StealthTechUltimateEngine:
                 writer.writerow(["Client Name", "USD Amount", "Naira Total"])
 
     def remove_duplicate_records(self, raw_data_list):
-        print("🧹 [DEDUPLICATION] Initializing Database Deduplication Scan...")
         unique_records = []
         duplicate_count = 0
         for record in raw_data_list:
@@ -25,54 +24,43 @@ class StealthTechUltimateEngine:
                 duplicate_count += 1
             else:
                 unique_records.append(record)
-        print(f"✅ Clean Complete: Removed {duplicate_count} duplicate files.")
-        return unique_records
+        return unique_records, duplicate_count
 
-    def process_and_settle_to_geegpay(self, client_name, usd_amount):
-        if usd_amount <= 0:
-            print("❌ SECURITY ERROR: Negative or zero validation anomaly quarantined.")
-            return None
-            
-        self.geegpay_usd_vault += usd_amount
-        naira_equivalent = usd_amount * 1650
+    def generate_executive_analytics(self, total_ingested, duplicates, malformed):
+        clean_retained = total_ingested - (duplicates + malformed)
+        purity_rate = (clean_retained / total_ingested) * 100
         
-        with open(self.db_file, mode="a", newline="", encoding="utf-8") as file:
-            writer = csv.writer(file)
-            writer.writerow([client_name, f"${usd_amount}", f"₦{naira_equivalent:,}"])
-            
-        print("\n==================================================")
-        print("🔒 GEEGPAY OFFSHORE ROUTING MATRIX ACTIVE")
-        print(f"💼 Source Client:        {client_name}")
-        print(f"📥 Settled Asset Ledger:  ${usd_amount:,.2f} USD")
-        print(f"📈 Total Wallet Reserves: ${self.geegpay_usd_vault:,.2f} USD")
-        print("==================================================")
-        return naira_equivalent
+        print("\n==================================================================")
+        print(f"📊 EXECUTIVE PERFORMANCE BRIEF - {self.company.upper()}")
+        print("==================================================================")
+        print(f"📥 Total Data Rows Ingested:    {total_ingested} Records")
+        print(f"🧹 Corrupted Elements Cleaned:  {duplicates + malformed} Files")
+        print(f"✅ Pristine Records Exported:   {clean_retained} Nodes")
+        print(f"📈 Database Yield Purity Rate:  {purity_rate:.2f}%")
+        print("==================================================================")
+        return clean_retained
 
 def launch_executive_dashboard():
     engine = StealthTechUltimateEngine()
     print("\n==================================================")
-    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v5.0")
+    print("🏢 SYSTEM ONLINE: THE STEALTH TECH GROUP CORE v6.0")
     print("==================================================")
     
     while True:
         print("\n[DASHBOARD MENU]")
-        print("1. Process New Transaction to Geegpay USD Wallet")
-        print("2. Run Bulk Data Deduplication Clean")
-        print("3. Close Corporate Channels Securely")
+        print("1. Run Bulk Data Process & Generate Analytics Summary")
+        print("2. Close Corporate Channels Securely")
         
-        user_choice = input("\nEnter selection (1-3): ")
+        user_choice = input("\nEnter selection (1-2): ")
         if user_choice == "1":
-            client_name = input("Enter client name: ")
             try:
-                amount = float(input("Enter transaction amount in USD ($): "))
-                engine.process_and_settle_to_geegpay(client_name, amount)
+                total = int(input("Enter total raw records count: "))
+                dups = int(input("Enter duplicate rows count found: "))
+                bad_mail = int(input("Enter malformed emails count found: "))
+                engine.generate_executive_analytics(total, dups, bad_mail)
             except ValueError:
-                print("❌ ERROR: Invalid character input string.")
+                print("❌ ERROR: Invalid entry string integer.")
         elif user_choice == "2":
-            # Running a live test array of messy client records
-            test_list = ["info@ukshop.com", "sales@london.com", "info@ukshop.com", "admin@scot.com"]
-            engine.remove_duplicate_records(test_list)
-        elif user_choice == "3":
             print("🔒 Closing database channels. Station secured.")
             break
 
